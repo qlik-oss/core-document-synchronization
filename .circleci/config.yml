@@ -41,6 +41,7 @@ jobs:
           command: |
             # Wait for services to be ready
             RABBITMQ_URL=$(sudo minikube service rabbitmq --url)
+            MIRA_URL=$(sudo minikube service mira --url)
             ENGINE_URL=$(sudo minikube service engine --url)
             ENGINE2_URL=$(sudo minikube service engine2 --url)
 
