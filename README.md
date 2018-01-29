@@ -31,16 +31,36 @@ To be able to access some of the docker images used in this example you also nee
 kubectl create secret docker-registry dockerhub --docker-username=<your-name> --docker-password=<your-password> --docker-email=<your-email>
 ```
 
-## Running the example
+## Deploying the example
 
-Deploy the example:
+Deploy the example by running the following command:
 
 ```sh
 kubetcl create -f ./core
 ```
 
-Remove the deployment:
+And to remove the deployment:
 
 ```sh
 kubectl delete -f ./core
 ```
+
+## Testing
+
+There is a small scenario implemented using [enigma.js](https://github.com/qlik-oss/enigma.js/) that verifies that the documents are
+synchronized between the two QIX Engine instances. The scenario contains the following steps:
+
+1. Create a document in the first QIX Engine instance.
+1. Open the previously created document in the second QIX Engine instance.
+1. Set a script and perform a reload in the second QIX Engine instance.
+1. Open a session to the document again in the first QIX Engine and verify reload time.
+
+To execute the test locally:
+
+```sh
+cd test
+npm install
+ENGINE1=<URL to QIX Engine> ENGINE2=<URL to QIX Engine> npm run test
+```
+
+The scenario is also part of the Circle CI pipeline and executed for each commit to this repo. For more details look at Circle CI [config](./.circle/config.yml) file.
