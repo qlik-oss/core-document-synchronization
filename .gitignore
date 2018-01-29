@@ -1,2 +1,6 @@
 # Ignore mergetool original back-ups
 *.orig
+node_modules/
+docs/
+*.tgz
+*.lock

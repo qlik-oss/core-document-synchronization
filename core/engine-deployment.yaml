@@ -1,0 +1,37 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: engine
+  labels:
+    app: engine
+  annotations:
+    prometheus.io/scrape: "true"
+spec:
+  template:
+    metadata:
+      labels:
+        app: engine
+        service: engine
+        qix-engine: ""
+    spec:
+      containers:
+      - name: engine
+        image: "qlikea/engine:12.128.0"
+        imagePullPolicy: IfNotPresent
+        args: ["-S", "DocumentDirectory=/data/apps", -S", "SystemLogVerbosity=4", -S", "Gen3=1", "-S", "PersistenceMode=3", "-S", "RabbitHost=rabbitmq:5672", "-S", "UseEventBus=1", "-S", "EnableABAC=1", "-S", "SystemAllowRulePath=/etc/config/rules.txt"]
+        ports:
+        - containerPort: 9076
+        volumeMounts:
+          - name: data
+            mountPath: /data/apps
+          - name: rules-volume
+            mountPath: /etc/config
+      imagePullSecrets:
+      - name: dockerhub
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: qlik-docs
+        - name: rules-volume
+          configMap:
+            name: qlik-rules
