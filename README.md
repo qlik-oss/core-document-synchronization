@@ -1,10 +1,10 @@
 # Doc synchronization
 
 This document contains an example on how to synchronize documents between multiple QIX Engine instances in Qlik Core.
-The orchestration used in this example is `Kubernetes`.
+The orchestration used in this example is [Kubernetes]( https://kubernetes.io/).
 
 To better visualize the synchronization this example contains two running QIX Engine instances deployed as two separate services.
-This is to ensure that the example uses both QIX engine instances and that sessions are not balanced by Kubernetes built-in loadbalancer.
+This is to ensure that the example uses both QIX engine instances and that sessions are not balanced by Kubernetes built-in load balancer.
 
 ## Description
 
@@ -15,7 +15,7 @@ events will be placed in a queue that both instances are subscribing to.
 
 ## Prerequisites
 
-To be able to run this example you will need to have `Minikube` or equivalent, and `Kubernetes` installed locally.
+To be able to run this example you will need to have [Minikube](https://github.com/kubernetes/minikube) or equivalent, and `Kubernetes` installed locally.
 
 Since QIX Engine instances uses `nobody` as running user in the docker container,
 the appropriate permissions must be set on the storage that will be used for the documents.
@@ -36,7 +36,7 @@ kubectl create secret docker-registry dockerhub --docker-username=<your-name> --
 Deploy the example by running the following command:
 
 ```sh
-kubetcl create -f ./core
+kubectl create -f ./core
 ```
 
 And to remove the deployment:
@@ -63,4 +63,12 @@ npm install
 ENGINE1=<URL to QIX Engine> ENGINE2=<URL to QIX Engine> npm run test
 ```
 
+You can retrieve the url to an engine by running `minikube service engine --url`. The service name used for the query is specified in the `*-service.yaml`.
+
 The scenario is also part of the Circle CI pipeline and executed for each commit to this repo. For more details look at Circle CI [config](./.circle/config.yml) file.
+
+## Removing the deployment
+
+```sh
+kubectl delete -f ./core
+```
