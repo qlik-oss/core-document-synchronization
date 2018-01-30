@@ -26,6 +26,10 @@ spec:
             mountPath: /data/apps
           - name: rules-volume
             mountPath: /etc/config
+      initContainers:
+      - name: init-rabbitmq
+        image: busybox
+        command: ['sh', '-c', 'until nslookup rabbitmq; do echo waiting for rabbitmq; sleep 2; done;']
       imagePullSecrets:
       - name: dockerhub
       volumes:
