@@ -40,8 +40,13 @@ describe('QIX doc sync - reload doc', () => {
   let engine2;
 
   before(() => {
-    engine1 = process.env.ENGINE1.substring(7);
-    engine2 = process.env.ENGINE2.substring(7);
+    if (!process.env.ENGINE1 || !process.env.ENGINE2) {
+      console.log('Please specify engines to use for the test. Check README for instructions.');
+      process.exit(1);
+    }
+    // Remove protocol from url if included
+    engine1 = process.env.ENGINE1.replace(/^(http[s]?:\/\/)/, '');
+    engine2 = process.env.ENGINE2.replace(/^(http[s]?:\/\/)/, '');
     console.log(`Using engines ${engine1} and ${engine2} in test`);
   });
 

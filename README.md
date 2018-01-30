@@ -15,14 +15,14 @@ events will be placed in a queue that both instances are subscribing to.
 
 ## Prerequisites
 
-To be able to run this example you will need to have `Minikube` or similar, and `Kubernetes` installed locally.
+To be able to run this example you will need to have `Minikube` or equivalent, and `Kubernetes` installed locally.
 
 Since QIX Engine instances uses `nobody` as running user in the docker container,
 the appropriate permissions must be set on the storage that will be used for the documents.
 Run the following command to create the document storage folder in minikube.
 
 ```sh
-minikube ssh 'sudo mkdir /data/docs;sudo chmod o+rw /data/docs'
+minikube ssh 'sudo mkdir -p /data/docs;sudo chmod o+rw /data/docs'
 ```
 
 To be able to access some of the docker images used in this example you also need to add a kubernetes secret with your docker credentials.
