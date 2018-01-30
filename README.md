@@ -1,6 +1,6 @@
 # Doc synchronization
 
-This document contains an example on how to use synchronize documents between multiple QIX Engine instances in Qlik Core.
+This document contains an example on how to synchronize documents between multiple QIX Engine instances in Qlik Core.
 The orchestration used in this example is `Kubernetes`.
 
 To better visualize the synchronization this example contains two running QIX Engine instances deployed as two separate services.
@@ -22,7 +22,7 @@ the appropriate permissions must be set on the storage that will be used for the
 Run the following command to create the document storage folder in minikube.
 
 ```sh
-minikube ssh 'sudo mkdir /tmp/docs;sudo chmod o+rw /tmp/docs'
+minikube ssh 'sudo mkdir /data/docs;sudo chmod o+rw /data/docs'
 ```
 
 To be able to access some of the docker images used in this example you also need to add a kubernetes secret with your docker credentials.

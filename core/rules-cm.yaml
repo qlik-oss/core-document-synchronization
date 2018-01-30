@@ -4,6 +4,6 @@ metadata:
   name: qlik-rules
 data:
     rules.txt: |
-      resource.resourcetype = "node" and resource.denyattributes="" and resource.actions="*"
-      resource.resourcetype = "App" and resource.denyattributes="" and resource.actions="*"
-      resource.resourcetype = "App.Object" and resource.denyattributes="" and resource.actions="*"
+      resource.resourcetype = "node" and resource.actions="*"
+      resource.resourcetype = "App" and resource.actions="*"
+      resource.resourcetype = "App.Object" and resource.actions="*"
