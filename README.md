@@ -65,7 +65,7 @@ ENGINE1=<URL to QIX Engine> ENGINE2=<URL to QIX Engine> npm run test
 
 You can retrieve the url to an engine by running `minikube service engine --url`. The service name used for the query is specified in the `*-service.yaml`.
 
-The scenario is also part of the Circle CI pipeline and executed for each commit to this repo. For more details look at Circle CI [config](./.circle/config.yml) file.
+The scenario is also part of the Circle CI pipeline and executed for each commit to this repo. For more details look at Circle CI [config](./.circleci/config.yml) file.
 
 ## Removing the deployment
 
