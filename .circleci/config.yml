@@ -40,7 +40,6 @@ jobs:
             sudo kubectl create -f example
             # Wait for rollout to finish
             sudo kubectl rollout status deployment/rabbitmq
-            sudo minikube service rabbitmq --url
             sudo kubectl rollout status deployment/engine
             sudo kubectl rollout status deployment/engine2
       - run:
