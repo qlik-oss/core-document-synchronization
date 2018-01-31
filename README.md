@@ -1,5 +1,7 @@
 # Doc synchronization
 
+[![CircleCI](https://circleci.com/gh/qlik-ea/example-doc-sync.svg?style=shield&circle-token=d09752ea3fc4bbc05a5682db1b713e93e59f2638)](https://circleci.com/gh/qlik-ea/example-doc-sync)
+
 This document contains an example on how to synchronize documents between multiple QIX Engine instances in Qlik Core.
 The orchestration used in this example is [Kubernetes]( https://kubernetes.io/).
 
@@ -39,12 +41,6 @@ Deploy the example by running the following command:
 kubectl create -f example
 ```
 
-And to remove the deployment:
-
-```sh
-kubectl delete -f example
-```
-
 ## Testing
 
 There is a small scenario implemented using [enigma.js](https://github.com/qlik-oss/enigma.js/) that verifies that the documents are
@@ -70,5 +66,5 @@ The scenario is also part of the Circle CI pipeline and executed for each commit
 ## Removing the deployment
 
 ```sh
-kubectl delete -f ./core
+kubectl delete -f example
 ```
