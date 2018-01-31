@@ -5,8 +5,12 @@ metadata:
     service: rabbitmq
   name: rabbitmq
 spec:
+  type: NodePort
   ports:
-  - port: 5672
+    - port: 5672
+      targetPort: 5672
+      protocol: TCP
+      name: http
   selector:
     app: taskQueue
     service: rabbitmq

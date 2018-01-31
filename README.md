@@ -36,13 +36,13 @@ kubectl create secret docker-registry dockerhub --docker-username=<your-name> --
 Deploy the example by running the following command:
 
 ```sh
-kubectl create -f ./core
+kubectl create -f example
 ```
 
 And to remove the deployment:
 
 ```sh
-kubectl delete -f ./core
+kubectl delete -f example
 ```
 
 ## Testing
