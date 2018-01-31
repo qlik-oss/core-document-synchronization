@@ -43,12 +43,41 @@ jobs:
             sudo minikube service rabbitmq --url
             sudo kubectl rollout status deployment/engine
             sudo kubectl rollout status deployment/engine2
+        - run:
+          name: Verify that QIX Engine services are healthy
+          command: |
+            ENGINE1_URL=$(sudo minikube service engine --url)
+            ENGINE2_URL=$(sudo minikube service engine2 --url)
+
+            set +e
+
+            RETRIES=0
+            while (( ENGINE1_STATUS != "200" && RETRIES != 60 )); do
+              ENGINE1_STATUS=$(curl -s -o /dev/null -w ''%{http_code}'' http://$ENGINE1_URL/healthcheck)
+              sleep 2
+              RETRIES=$((RETRIES + 1 ))
+            done
+            echo "QIX Engine1 returned status code: $ENGINE1_STATUS"
+
+            RETRIES=0
+            while (( ENGINE2_STATUS != "200" && RETRIES != 60 )); do
+              ENGINE2_STATUS=$(curl -s -o /dev/null -w ''%{http_code}'' http://$ENGINE2_URL/healthcheck)
+              sleep 2
+              RETRIES=$((RETRIES + 1 ))
+            done
+            echo "QIX Engine2 returned status code: $ENGINE2_STATUS"
+
+
+            if [[ "$ENGINE1_STATUS" != "200" || "$ENGINE2_STATUS" != "200" ]]; then
+              echo "All services did not return status code 200 on health endpoints"
+              exit 1
+            fi
       - run:
           name: Build and execute example scenario
           command: |
-            ENGINE_URL=$(sudo minikube service engine --url)
+            ENGINE1_URL=$(sudo minikube service engine --url)
             ENGINE2_URL=$(sudo minikube service engine2 --url)
 
             cd test
-            docker build --build-arg ENGINE1="$ENGINE_URL" --build-arg ENGINE2="$ENGINE2_URL" -t test/test-example .
+            docker build --build-arg ENGINE1="$ENGINE1_URL" --build-arg ENGINE2="$ENGINE2_URL" -t test/test-example .
             docker run --rm test/test-example
