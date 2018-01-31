@@ -43,7 +43,7 @@ jobs:
             sudo minikube service rabbitmq --url
             sudo kubectl rollout status deployment/engine
             sudo kubectl rollout status deployment/engine2
-        - run:
+      - run:
           name: Verify that QIX Engine services are healthy
           command: |
             ENGINE1_URL=$(sudo minikube service engine --url)
