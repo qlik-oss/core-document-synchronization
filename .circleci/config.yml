@@ -35,11 +35,17 @@ jobs:
             sudo chmod o+rw /data/docs
       - run:
           name: Deploy services
-          command: sudo kubectl create -f example
+          command: |
+            # Deploy charts
+            sudo kubectl create -f example
+            # Wait for rollout to finish
+            sudo kubectl rollout status deployment/rabbitmq
+            sudo minikube service rabbitmq --url
+            sudo kubectl rollout status deployment/engine
+            sudo kubectl rollout status deployment/engine2
       - run:
           name: Build and execute example scenario
           command: |
-            RABBITMQ_URL=$(sudo minikube service rabbitmq --url)
             ENGINE_URL=$(sudo minikube service engine --url)
             ENGINE2_URL=$(sudo minikube service engine2 --url)
 
