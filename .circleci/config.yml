@@ -53,7 +53,7 @@ jobs:
 
             RETRIES=0
             while (( ENGINE1_STATUS != "200" && RETRIES != 60 )); do
-              ENGINE1_STATUS=$(curl -s -o /dev/null -w ''%{http_code}'' http://$ENGINE1_URL/healthcheck)
+              ENGINE1_STATUS=$(curl -s -o /dev/null -w ''%{http_code}'' $ENGINE1_URL/healthcheck)
               sleep 2
               RETRIES=$((RETRIES + 1 ))
             done
@@ -61,7 +61,7 @@ jobs:
 
             RETRIES=0
             while (( ENGINE2_STATUS != "200" && RETRIES != 60 )); do
-              ENGINE2_STATUS=$(curl -s -o /dev/null -w ''%{http_code}'' http://$ENGINE2_URL/healthcheck)
+              ENGINE2_STATUS=$(curl -s -o /dev/null -w ''%{http_code}'' $ENGINE2_URL/healthcheck)
               sleep 2
               RETRIES=$((RETRIES + 1 ))
             done
