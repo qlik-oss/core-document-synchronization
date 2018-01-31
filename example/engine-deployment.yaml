@@ -4,8 +4,6 @@ metadata:
   name: engine
   labels:
     app: engine
-  annotations:
-    prometheus.io/scrape: "true"
 spec:
   template:
     metadata:
@@ -26,6 +24,12 @@ spec:
             mountPath: /data/apps
           - name: rules-volume
             mountPath: /etc/config
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 9076
+          initialDelaySeconds: 3
+          periodSeconds: 3
       initContainers:
       - name: init-rabbitmq
         image: busybox
