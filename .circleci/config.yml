@@ -1,0 +1,83 @@
+version: 2
+jobs:
+  build:
+    machine: true
+    environment:
+      CHANGE_MINIKUBE_NONE_USER: true
+    working_directory: ~/example-doc-sync
+    steps:
+      - checkout
+      - run:
+          name: Login to Docker
+          command: docker login -u "$DOCKER_USER" -p "$DOCKER_PASSWORD"
+      - run:
+          name: Install Kubectl
+          command: |
+            curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/v1.9.0/bin/linux/amd64/kubectl && chmod +x kubectl && sudo mv kubectl /usr/local/bin/
+      - run:
+          name: Install Minikube
+          command: |
+            curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/
+      - run:
+          name: Start Minikube
+          command: |
+            sudo minikube start --vm-driver=none --kubernetes-version=v1.9.0
+            sudo minikube update-context
+      - run:
+          name: Add docker credentials as kubernetes secret
+          command: |
+            sleep 5 # Let the minikube have some time to start up
+            sudo kubectl create secret docker-registry dockerhub --docker-username=$DOCKER_USER --docker-password=$DOCKER_PASSWORD --docker-email=$DOCKER_EMAIL
+      - run:
+          name: Set up permissions for docs storage folder
+          command: |
+            sudo mkdir -p /data/docs
+            sudo chmod o+rw /data/docs
+      - run:
+          name: Deploy services
+          command: |
+            # Deploy charts
+            sudo kubectl create -f example
+            # Wait for rollout to finish
+            sudo kubectl rollout status deployment/rabbitmq
+            sudo minikube service rabbitmq --url
+            sudo kubectl rollout status deployment/engine
+            sudo kubectl rollout status deployment/engine2
+      - run:
+          name: Verify that QIX Engine services are healthy
+          command: |
+            ENGINE1_URL=$(sudo minikube service engine --url)
+            ENGINE2_URL=$(sudo minikube service engine2 --url)
+
+            set +e
+
+            RETRIES=0
+            while (( ENGINE1_STATUS != "200" && RETRIES != 60 )); do
+              ENGINE1_STATUS=$(curl -s -o /dev/null -w ''%{http_code}'' $ENGINE1_URL/healthcheck)
+              sleep 2
+              RETRIES=$((RETRIES + 1 ))
+            done
+            echo "QIX Engine1 returned status code: $ENGINE1_STATUS"
+
+            RETRIES=0
+            while (( ENGINE2_STATUS != "200" && RETRIES != 60 )); do
+              ENGINE2_STATUS=$(curl -s -o /dev/null -w ''%{http_code}'' $ENGINE2_URL/healthcheck)
+              sleep 2
+              RETRIES=$((RETRIES + 1 ))
+            done
+            echo "QIX Engine2 returned status code: $ENGINE2_STATUS"
+
+
+            if [[ "$ENGINE1_STATUS" != "200" || "$ENGINE2_STATUS" != "200" ]]; then
+              echo "All services did not return status code 200 on health endpoints"
+              exit 1
+            fi
+      - run:
+          name: Build and execute example scenario
+          command: |
+            ENGINE1_URL=$(sudo minikube service engine --url)
+            ENGINE2_URL=$(sudo minikube service engine2 --url)
+
+            cd test
+            docker build --build-arg ENGINE1="$ENGINE1_URL" --build-arg ENGINE2="$ENGINE2_URL" -t test/test-example .
+            docker run --rm test/test-example

@@ -1,2 +1,2 @@
 # Ignore mergetool original back-ups
-*.orig
+node_modules/

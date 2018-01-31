@@ -1,0 +1,24 @@
+{
+  "name": "doc-sync-test",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "test": "aw node . --mocha.timeout 10000"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "after-work.js": "4.0.1",
+    "enigma.js": "2.2.0",
+    "eslint": "3.19.0",
+    "eslint-config-airbnb-base": "11.2.0",
+    "eslint-plugin-import": "2.3.0",
+    "ws": "4.0.0"
+  },
+  "engines": {
+    "node": ">=8.0.x"
+  }
+}
