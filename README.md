@@ -1,8 +1,8 @@
-# Doc synchronization
+# QIX Document synchronization
 
 [![CircleCI](https://circleci.com/gh/qlik-ea/example-doc-sync.svg?style=shield&circle-token=d09752ea3fc4bbc05a5682db1b713e93e59f2638)](https://circleci.com/gh/qlik-ea/example-doc-sync)
 
-This document contains an example on how to synchronize documents between multiple QIX Engine instances in Qlik Core.
+This git repository contains an example on how to synchronize documents between multiple QIX Engine instances in Qlik Core.
 The orchestration used in this example is [Kubernetes]( https://kubernetes.io/).
 
 To better visualize the synchronization this example contains two running QIX Engine instances deployed as two separate services.
