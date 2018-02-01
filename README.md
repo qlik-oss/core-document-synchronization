@@ -15,6 +15,8 @@ which will be shared between the two QIX Engine instances. The synchronization b
 broker called [RabbitMQ](https://www.rabbitmq.com/). When a document is updated e.g. data has been reloaded or new documents were created,
 events will be placed in a queue that both instances are subscribing to.
 
+Further details on configuration of `RabbitMQ` and synchronization of documents can be found [here](https://ca.qliktive.com/docs/master/docs/services/qix-engine/doc-synchronization/).
+
 ## Prerequisites
 
 To be able to run this example you will need to have [Minikube](https://github.com/kubernetes/minikube) or equivalent, and `Kubernetes` installed locally.
