@@ -14,7 +14,7 @@ WORKDIR /test/
 # Bundle test and depencencies
 COPY package*.json ./
 RUN npm install --quiet
-COPY test ./test
+COPY *.spec.js ./
 
 
 # Execute tests

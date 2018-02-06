@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "test": "aw node . --mocha.timeout 10000"
+    "test": "aw node . --glob *.spec.js --mocha.timeout 10000"
   },
   "author": "",
   "license": "MIT",
