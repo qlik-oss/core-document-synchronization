@@ -16,7 +16,7 @@ spec:
       - name: engine
         image: "qlikea/engine:12.138.0"
         imagePullPolicy: IfNotPresent
-        args: ["-S", "DocumentDirectory=/data/apps", -S", "SystemLogVerbosity=4", -S", "Gen3=1", "-S", "PersistenceMode=3", "-S", "RabbitHost=rabbitmq:5672", "-S", "UseEventBus=1", "-S", "EnableABAC=1", "-S", "SystemAllowRulePath=/etc/config/rules.txt"]
+        args: ["-S", "AcceptEULA=no", "-S", "DocumentDirectory=/data/apps", "-S", "SystemLogVerbosity=4", -S", "Gen3=1", "-S", "PersistenceMode=3", "-S", "RabbitHost=rabbitmq:5672", "-S", "UseEventBus=1", "-S", "EnableABAC=1", "-S", "SystemAllowRulePath=/etc/config/rules.txt"]
         ports:
         - containerPort: 9076
         volumeMounts:

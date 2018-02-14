@@ -34,6 +34,9 @@ jobs:
             sudo mkdir -p /data/docs
             sudo chmod o+rw /data/docs
       - run:
+          name: Accept EULA
+          command: grep -rl AcceptEULA ./example | xargs sed -i 's/AcceptEULA=no/AcceptEULA=yes/g' 
+      - run:
           name: Deploy services
           command: |
             # Deploy charts
