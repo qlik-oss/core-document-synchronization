@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: engine2
-        image: "qlikea/engine:12.156.0"
+        image: "qlikea/engine:12.157.0"
         imagePullPolicy: IfNotPresent
         args: ["-S", "AcceptEULA=no", "-S", "DocumentDirectory=/data/apps", "-S", "SystemLogVerbosity=4", -S", "Gen3=1", "-S", "PersistenceMode=3", "-S", "RabbitHost=rabbitmq:5672", "-S", "UseEventBus=1", "-S", "EnableABAC=1", "-S", "SystemAllowRulePath=/etc/config/rules.txt"]
         ports:
