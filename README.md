@@ -1,6 +1,6 @@
 # QIX Document synchronization
 
-[![CircleCI](https://circleci.com/gh/qlik-ea/core-document-synchronization.svg?style=shield&circle-token=d09752ea3fc4bbc05a5682db1b713e93e59f2638)](https://circleci.com/gh/qlik-ea/core-document-synchronization)
+[![CircleCI](https://circleci.com/gh/qlik-oss/core-document-synchronization.svg?style=shield)](https://circleci.com/gh/qlik-oss/core-document-synchronization)
 
 This git repository contains an example on how to synchronize documents between multiple Qlik Associative Engine instances in Qlik Core.
 The orchestration used in this example is [Kubernetes]( https://kubernetes.io/).
