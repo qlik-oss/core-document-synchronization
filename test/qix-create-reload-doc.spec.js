@@ -59,20 +59,30 @@ describe('QIX doc sync - reload doc', () => {
       createSocket: url => new WebSocket(url),
     });
 
-    const qix1 = await session.open();
-    console.log('Creating doc');
-    const result = await qix1.createApp('testApp');
+    const qix1 = await session1.open();
+    console.log('Creating doc in first qix-engine instance');
+    const result = await qix1.createApp(`testApp${+new Date()}`);
     expect(result.qSuccess).to.equal(true);
     console.log(`Created doc with id: ${result.qAppId}`);
     const appId = result.qAppId;
 
     // Open doc and save the reload time
-    let app = await qix1.openDoc(appId);
-    let appLayout = await app.getAppLayout();
-    const firstReloadTime = appLayout.qLastReloadTime;
-    console.log(`Doc was reloaded last time: ${firstReloadTime}`);
-    await session.close();
-    console.log('Closed session to first qix-engine');
+    const app = await qix1.openDoc(appId);
+    const appLayout = await app.getAppLayout();
+    console.log(`Doc after create has last reload time: ${appLayout.qLastReloadTime}`);
+
+    // Set up subscription on changed, suspend and closed events
+    app.on('changed', async () => {
+      console.log('Received changed event on doc on first qix-engine instance');
+    });
+
+    app.on('suspend', async () => {
+      console.log('Received suspend event on doc on first qix-engine instance');
+    });
+
+    app.on('closed', async () => {
+      console.log('Received closed event on doc on first qix-engine instance');
+    });
 
     // Open the document in second engine, set script and do reload
     console.log('Opening a session to second qix-engine and reloading doc');
@@ -83,37 +93,30 @@ describe('QIX doc sync - reload doc', () => {
     });
 
     const qix2 = await session2.open();
-    app = await qix2.openDoc(appId);
-    appLayout = await app.getAppLayout();
-    const reloadTime = appLayout.qLastReloadTime;
-    console.log(`Doc was reloaded last time: ${reloadTime}`);
-    expect(reloadTime).to.equal(firstReloadTime);
+    const app2 = await qix2.openDoc(appId);
 
-    await app.setScript(script);
-    await app.doReload(0, false, false);
-    await app.doSave();
+    console.log('Setting a script, reloading doc and saving in second qix-engine instance');
+    await app2.setScript(script);
+    await app2.doReload(0, false, false);
+    await app2.doSave();
 
-    appLayout = await app.getAppLayout();
-    const newReloadTime = appLayout.qLastReloadTime;
-    console.log(`Reload time after reload: ${newReloadTime}`);
-    expect(newReloadTime).to.not.equal(firstReloadTime);
+    // Get and save new reload time
+    const appLayout2 = await app2.getAppLayout();
+    console.log(`Doc after reload has last reload time: ${appLayout2.qLastReloadTime}`);
+
+    let newReloadTime = appLayout.qLastReloadTime;
+
+    let retries = 0;
+    while (newReloadTime !== appLayout2.qLastReloadTime && retries < 10) {
+      await sleep(2000);
+      const tempLayout = await app.getAppLayout();
+      newReloadTime = tempLayout.qLastReloadTime;
+      console.log(`Doc has last reload time: ${newReloadTime}`);
+      retries += 1;
+    }
+
+    await session1.close();
     await session2.close();
     console.log('Closed session to second qix-engine');
-
-    // Open doc in first engine again and verify reload time
-    console.log('Opening a session to first qix-engine and verifying reload time');
-    const session3 = enigma.create({
-      schema,
-      url: `ws://${engine1}/app/engineData/identity/${+new Date()}`,
-      createSocket: url => new WebSocket(url),
-    });
-
-    const qix3 = await session3.open();
-    app = await qix3.openDoc(appId);
-    appLayout = await app.getAppLayout();
-    console.log(`Doc was reloaded last time: ${appLayout.qLastReloadTime}`);
-    expect(appLayout.qLastReloadTime).to.equal(newReloadTime);
-    await session3.close();
-    console.log('Closed session to first qix-engine');
   });
 });
