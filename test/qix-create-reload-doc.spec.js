@@ -69,6 +69,7 @@ describe('QIX doc sync - reload doc', () => {
     // Open doc and save the reload time
     const app = await qix1.openDoc(appId);
     const appLayout = await app.getAppLayout();
+    await app.doSave();
     console.log(`Doc after create has last reload time: ${appLayout.qLastReloadTime}`);
 
     // Set up subscription on changed, suspend and closed events
