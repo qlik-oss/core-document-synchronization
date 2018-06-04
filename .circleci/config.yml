@@ -18,6 +18,7 @@ jobs:
           command: |
             sudo minikube start --vm-driver=none --kubernetes-version=v1.9.0
             sudo minikube update-context
+            sleep 5 # Let the minikube have some time to start up
       - run:
           name: Set up permissions for docs storage folder
           command: |
