@@ -11,8 +11,9 @@ This is to ensure that the example uses both QIX engine instances and that sessi
 ## Description
 
 This example will use a [Persistent Volume](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) in `Kubernetes`,
-which will be shared between the two Qlik Associative Engine instances. The synchronization between the Qlik Associative Engines will be handled by file polling of the document on the share.
-If the data has been changed in a document existing sessions towards the document in all Qlik Associative Engine instances should be updated.
+which will be shared between the two Qlik Associative Engine instances.
+The synchronization between the instances will be handled by file polling of the document on the shared volume.
+If there are changes made to the data blob or objects/variables/dimensions/measures in a document, all existing sessions towards the document will be updated regardless of engine instance being used.
 
 ## Prerequisites
 
