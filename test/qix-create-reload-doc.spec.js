@@ -35,6 +35,12 @@ While Rand()<=0.5 or IterNo()=1;
 Comment Field Dim1 With "This is a field comment";
 `;
 
+async function sleep(ms) {
+  return new Promise((resolve) => {
+    setTimeout(() => { resolve(); }, ms);
+  });
+}
+
 describe('QIX doc sync - reload doc', () => {
   let engine1;
   let engine2;
@@ -53,7 +59,7 @@ describe('QIX doc sync - reload doc', () => {
   it('should be possible to create a doc in one engine and reload in another', async () => {
     // Open a session to first engine and create an app
     console.log('Opening a session to first qix-engine');
-    const session = enigma.create({
+    const session1 = enigma.create({
       schema,
       url: `ws://${engine1}/app/engineData/identity/${+new Date()}`,
       createSocket: url => new WebSocket(url),
@@ -72,6 +78,7 @@ describe('QIX doc sync - reload doc', () => {
     const app = await qix1.openDoc(appId);
     const appLayout = await app.getAppLayout();
     await app.doSave();
+    await sleep(1000);
     console.log(`Doc after create has last reload time: ${appLayout.qLastReloadTime}`);
 
     // Set up subscription on changed, suspend and closed events
@@ -102,13 +109,13 @@ describe('QIX doc sync - reload doc', () => {
     console.log('Setting a script, reloading doc and saving in second qix-engine instance');
     await app2.setScript(script);
     await app2.doReload(0, false, false);
-    //await sleep(3000);
     await app2.doSave();
 
     // Get and save new reload time
     const appLayout2 = await app2.getAppLayout();
     console.log(`Doc after reload has last reload time: ${appLayout2.qLastReloadTime}`);
 
+    // Wait for the first instance to get an updated reload time
     let newReloadTime = appLayout.qLastReloadTime;
 
     let retries = 0;
@@ -120,8 +127,11 @@ describe('QIX doc sync - reload doc', () => {
       retries += 1;
     }
 
+    // Wait for sessions to be closed
     await session1.close();
     await session2.close();
-    console.log('Closed session to second qix-engine');
+
+    // Verify that the reload time was updated in the first engine instance
+    expect(newReloadTime).to.equal(appLayout2.qLastReloadTime);
   });
 });

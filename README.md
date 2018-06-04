@@ -11,11 +11,8 @@ This is to ensure that the example uses both QIX engine instances and that sessi
 ## Description
 
 This example will use a [Persistent Volume](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) in `Kubernetes`,
-which will be shared between the two Qlik Associative Engine instances. The synchronization between the Qlik Associative Engines will be handled by a message
-broker called [RabbitMQ](https://www.rabbitmq.com/). When a document is updated e.g. data has been reloaded or new documents were created,
-events will be placed in a queue that both instances are subscribing to.
-
-Further details on configuration of `RabbitMQ` and synchronization of documents can be found [here](https://ca.qliktive.com/docs/master/docs/services/qix-engine/doc-synchronization/).
+which will be shared between the two Qlik Associative Engine instances. The synchronization between the Qlik Associative Engines will be handled by file polling of the document on the share.
+If the data has been changed in a document existing sessions towards the document in all Qlik Associative Engine instances should be updated.
 
 ## Prerequisites
 
@@ -27,12 +24,6 @@ Run the following command to create the document storage folder in minikube.
 
 ```sh
 minikube ssh 'sudo mkdir -p /data/docs;sudo chmod o+rw /data/docs'
-```
-
-To be able to access some of the docker images used in this example you also need to add a kubernetes secret with your docker credentials.
-
-```sh
-kubectl create secret docker-registry dockerhub --docker-username=<your-name> --docker-password=<your-password> --docker-email=<your-email>
 ```
 
 ## Deploying the example
