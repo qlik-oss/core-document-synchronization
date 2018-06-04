@@ -22,8 +22,6 @@ spec:
         volumeMounts:
           - name: data
             mountPath: /data/apps
-          - name: rules-volume
-            mountPath: /etc/config
         readinessProbe:
           httpGet:
             path: /health
