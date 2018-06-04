@@ -8,9 +8,6 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Login to Docker
-          command: docker login -u "$DOCKER_USER" -p "$DOCKER_PASSWORD"
-      - run:
           name: Install Kubectl
           command: curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/v1.9.3/bin/linux/amd64/kubectl && chmod +x kubectl && sudo mv kubectl /usr/local/bin/
       - run:
@@ -21,11 +18,6 @@ jobs:
           command: |
             sudo minikube start --vm-driver=none --kubernetes-version=v1.9.0
             sudo minikube update-context
-      - run:
-          name: Add docker credentials as kubernetes secret
-          command: |
-            sleep 5 # Let the minikube have some time to start up
-            sudo kubectl create secret docker-registry dockerhub --docker-username=$DOCKER_USER --docker-password=$DOCKER_PASSWORD --docker-email=$DOCKER_EMAIL
       - run:
           name: Set up permissions for docs storage folder
           command: |
