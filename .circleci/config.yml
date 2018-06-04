@@ -8,26 +8,17 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Login to Docker
-          command: docker login -u "$DOCKER_USER" -p "$DOCKER_PASSWORD"
-      - run:
           name: Install Kubectl
-          command: |
-            curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/v1.9.0/bin/linux/amd64/kubectl && chmod +x kubectl && sudo mv kubectl /usr/local/bin/
+          command: curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/v1.9.3/bin/linux/amd64/kubectl && chmod +x kubectl && sudo mv kubectl /usr/local/bin/
       - run:
           name: Install Minikube
-          command: |
-            curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/
+          command: curl -Lo minikube https://storage.googleapis.com/minikube/releases/v0.25.0/minikube-linux-amd64 && chmod +x minikube && sudo mv minikube /usr/local/bin/
       - run:
           name: Start Minikube
           command: |
             sudo minikube start --vm-driver=none --kubernetes-version=v1.9.0
             sudo minikube update-context
-      - run:
-          name: Add docker credentials as kubernetes secret
-          command: |
             sleep 5 # Let the minikube have some time to start up
-            sudo kubectl create secret docker-registry dockerhub --docker-username=$DOCKER_USER --docker-password=$DOCKER_PASSWORD --docker-email=$DOCKER_EMAIL
       - run:
           name: Set up permissions for docs storage folder
           command: |
@@ -35,14 +26,13 @@ jobs:
             sudo chmod o+rw /data/docs
       - run:
           name: Accept EULA
-          command: grep -rl AcceptEULA ./example | xargs sed -i 's/AcceptEULA=no/AcceptEULA=yes/g' 
+          command: grep -rl AcceptEULA ./example | xargs sed -i 's/AcceptEULA=no/AcceptEULA=yes/g'
       - run:
           name: Deploy services
           command: |
             # Deploy charts
             sudo kubectl create -v=8 -f example
             # Wait for rollout to finish
-            sudo kubectl rollout status deployment/rabbitmq
             sudo kubectl rollout status deployment/engine
             sudo kubectl rollout status deployment/engine2
       - run:
