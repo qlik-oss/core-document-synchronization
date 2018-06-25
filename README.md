@@ -4,18 +4,18 @@
 
 This git repository contains an example on how to synchronize documents between multiple Qlik Associative Engine instances in Qlik Core. It also contains a small test scenario, implemented with [enigma.js](https://github.com/qlik-oss/enigma.js/), to verify document synchronization between engine instances. Container orchestration in this example is managed with [Kubernetes]( https://kubernetes.io/).
 
-To better visualize the synchronization, the two  Qlik Associative Engine instances are deployed as separate services.
+To get a clearer picture of document synchronization, the two  Qlik Associative Engine instances are deployed as separate services.
 This setup ensures that both engine instances are used, and that the sessions are not balanced by Kubernetes built-in load balancer.
 
 ## Description
 
 In this example, a Kubernetes [Persistent Volume](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) is shared between the two Qlik Associative Engine instances.
-Synchronization between the two instances is handled by file polling the document on the shared volume to check for changes.
-If changes to the document (data blob, objetcs, variables, dimensions, or measures) are detected, all existing sessions towards the document are updated, regardless of which engine instance is being used.
+
+To manage document synchronization, Qlik Core polls the document on the shared volume looking for changes. If changes to data blobs, objetcs, variables, dimensions, or measures are detected, all existing sessions towards the document are updated, regardless of which engine instance is being used.
 
 ## Prerequisites
 
-To run this example you need to have [Minikube](https://github.com/kubernetes/minikube) (or equivalent) and `Kubernetes` installed locally.
+To run this example, you need to have [Minikube](https://github.com/kubernetes/minikube) (or equivalent) and `Kubernetes` installed locally.
 
 Since Qlik Associative Engine instances use `nobody` as the running user in the docker container,
 you must set the appropriate permissions for doucment storage.
