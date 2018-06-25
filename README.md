@@ -10,7 +10,7 @@ This setup ensures that both engine instances are used, and that the sessions ar
 ## Description
 
 In this example, a Kubernetes [Persistent Volume](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) is shared between the two Qlik Associative Engine instances.
-To manage document synchronization, Qlik Core polls the document on the shared volume looking for changes. 
+To manage document synchronization, Qlik Core looks for document changes on the shared volume. 
 If changes to data blobs, objetcs, variables, dimensions, or measures are detected, all existing sessions towards the document are updated, regardless of which engine instance is being used.
 
 ## Prerequisites
@@ -34,7 +34,7 @@ To deploy the example, run the following command:
 kubectl create -f example
 ```
 
-## Testing the synchronization
+## Testing document synchronization
 
 The test scenario runs through the following steps:
 
@@ -55,9 +55,9 @@ ENGINE1=<URL to Qlik Associative Engine> ENGINE2=<URL to Qlik Associative Engine
 ```
 
 !!! Note
-    You can retrieve the url to an engine by running `minikube service engine --url`. The service name used for the query is specified       in the `*-service.yaml`.
+    You can retrieve the url to an engine by running `minikube service engine --url`. The service name used for the query is specified       in `*-service.yaml`.
 
-The test scenario is also part of the Circle CI pipeline and executed for each commit to this repo. For more details look at the Circle CI [config](./.circleci/config.yml) file.
+The test scenario is also part of the Circle CI pipeline and executed for each commit to this repository. For more details, look at the Circle CI [config](./.circleci/config.yml) file.
 
 ## Removing the deployment
 
