@@ -10,12 +10,12 @@ This setup ensures that both engine instances are used, and that the sessions ar
 ## Description
 
 In this example, a Kubernetes [Persistent Volume](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) is shared between the two Qlik Associative Engine instances.
-
-To manage document synchronization, Qlik Core polls the document on the shared volume looking for changes. If changes to data blobs, objetcs, variables, dimensions, or measures are detected, all existing sessions towards the document are updated, regardless of which engine instance is being used.
+To manage document synchronization, Qlik Core polls the document on the shared volume looking for changes. 
+If changes to data blobs, objetcs, variables, dimensions, or measures are detected, all existing sessions towards the document are updated, regardless of which engine instance is being used.
 
 ## Prerequisites
 
-To run this example, you need to have [Minikube](https://github.com/kubernetes/minikube) (or equivalent) and `Kubernetes` installed locally.
+To run this example, you need to have [Minikube](https://github.com/kubernetes/minikube) (or equivalent) and Kubernetes installed locally.
 
 Since Qlik Associative Engine instances use `nobody` as the running user in the docker container,
 you must set the appropriate permissions for doucment storage.
