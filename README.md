@@ -4,12 +4,11 @@
 
 This git repository contains an example on how to synchronize documents between multiple Qlik Associative Engine instances in Qlik Core. It also contains a small test scenario, implemented with [enigma.js](https://github.com/qlik-oss/enigma.js/), to verify document synchronization between engine instances. Container orchestration in this example is managed with [Kubernetes]( https://kubernetes.io/).
 
-To get a clearer picture of document synchronization, the two  Qlik Associative Engine instances are deployed as separate services.
-This setup ensures that both engine instances are used, and that the sessions are not balanced by Kubernetes built-in load balancer.
-
 ## Description
 
-In this example, a Kubernetes [Persistent Volume](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) is shared between the two Qlik Associative Engine instances.
+In this example, the engine instances are deployed as separate services. This makes it easier to see document synchronization because it ensures that both engine instances are used, and that the sessions are not balanced by Kubernetes built-in load balancer.
+
+A Kubernetes [Persistent Volume](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) is shared between the two Qlik Associative Engine instances.
 To manage document synchronization, Qlik Core looks for document changes on the shared volume. 
 If changes to data blobs, objetcs, variables, dimensions, or measures are detected, all existing sessions towards the document are updated, regardless of which engine instance is being used.
 
