@@ -32,6 +32,8 @@ jobs:
           command: |
             # Deploy charts
             sudo kubectl create -v=8 -f example
+            # Give the deployment some seconds to be created
+            sleep 5
             # Wait for rollout to finish
             sudo kubectl rollout status deployment/engine
             sudo kubectl rollout status deployment/engine2
