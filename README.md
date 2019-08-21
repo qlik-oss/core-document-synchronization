@@ -48,7 +48,6 @@ The test scenario runs through the following steps:
 To execute the test locally, run the following commands:
 
 ```sh
-cd test
 npm install
 ENGINE1=<URL to Qlik Associative Engine> ENGINE2=<URL to Qlik Associative Engine> npm run test
 ```
