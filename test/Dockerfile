@@ -15,6 +15,7 @@ WORKDIR /test/
 COPY package*.json ./
 RUN npm install --quiet
 COPY *.spec.js ./
+COPY aw.config.js ./
 
 
 # Execute tests
