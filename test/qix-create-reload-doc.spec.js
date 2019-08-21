@@ -62,10 +62,10 @@ describe('QIX doc sync - reload doc', () => {
     const session1 = enigma.create({
       schema,
       url: `ws://${engine1}/app/engineData/identity/${+new Date()}`,
-      createSocket: url => new WebSocket(url),
+      createSocket: (url) => new WebSocket(url),
     });
 
-    session1.on("traffic:*", (direction, data) => console.log("session1", direction, JSON.stringify(data)));
+    session1.on('traffic:*', (direction, data) => console.log('session1', direction, JSON.stringify(data)));
 
     const qix1 = await session1.open();
     console.log('Creating doc in first qix-engine instance');
@@ -99,9 +99,9 @@ describe('QIX doc sync - reload doc', () => {
     const session2 = enigma.create({
       schema,
       url: `ws://${engine2}/app/engineData/identity/${+new Date()}`,
-      createSocket: url => new WebSocket(url),
+      createSocket: (url) => new WebSocket(url),
     });
-    session2.on("traffic:*", (direction, data) => console.log("session2", direction, JSON.stringify(data)));
+    session2.on('traffic:*', (direction, data) => console.log('session2', direction, JSON.stringify(data)));
 
     const qix2 = await session2.open();
     const app2 = await qix2.openDoc(appId);
@@ -120,6 +120,7 @@ describe('QIX doc sync - reload doc', () => {
 
     let retries = 0;
     while (newReloadTime !== appLayout2.qLastReloadTime && retries < 10) {
+      /* eslint-disable no-await-in-loop */
       await sleep(2000);
       const tempLayout = await app.getAppLayout();
       newReloadTime = tempLayout.qLastReloadTime;

@@ -6,17 +6,17 @@
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "test": "aw node . --glob *.spec.js --mocha.timeout 30000"
+    "test": "aw node -c ./aw.config.js"
   },
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "after-work.js": "4.3.2",
-    "enigma.js": "2.3.0",
-    "eslint": "5.6.1",
-    "eslint-config-airbnb-base": "13.1.0",
-    "eslint-plugin-import": "2.14.0",
-    "ws": "6.0.0"
+    "@after-work.js/node-cli": "6.0.8",
+    "enigma.js": "2.4.0",
+    "eslint": "6.2.1",
+    "eslint-config-airbnb-base": "14.0.0",
+    "eslint-plugin-import": "2.18.2",
+    "ws": "7.1.2"
   },
   "engines": {
     "node": ">=8.0.x"
