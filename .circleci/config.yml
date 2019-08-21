@@ -43,6 +43,5 @@ jobs:
             ENGINE1_URL=$(sudo minikube service engine --url)
             ENGINE2_URL=$(sudo minikube service engine2 --url)
 
-            cd test
             docker build --build-arg ENGINE1="$ENGINE1_URL" --build-arg ENGINE2="$ENGINE2_URL" -t test/test-example .
             docker run --rm test/test-example
