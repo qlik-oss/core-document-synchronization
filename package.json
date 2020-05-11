@@ -16,7 +16,7 @@
     "eslint": "7.0.0",
     "eslint-config-airbnb-base": "14.1.0",
     "eslint-plugin-import": "2.20.2",
-    "ws": "7.2.5"
+    "ws": "7.3.0"
   },
   "engines": {
     "node": ">=8.0.x"
