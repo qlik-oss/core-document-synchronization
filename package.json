@@ -13,7 +13,7 @@
   "devDependencies": {
     "@after-work.js/node-cli": "6.0.13",
     "enigma.js": "2.7.1",
-    "eslint": "7.3.0",
+    "eslint": "7.3.1",
     "eslint-config-airbnb-base": "14.2.0",
     "eslint-plugin-import": "2.21.2",
     "ws": "7.3.0"
