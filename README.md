@@ -2,6 +2,8 @@
 
 [![CircleCI](https://circleci.com/gh/qlik-oss/core-document-synchronization.svg?style=shield)](https://circleci.com/gh/qlik-oss/core-document-synchronization)
 
+*As of 1 July 2020, Qlik Core is no longer available to new customers. No further maintenance will be done in this repository.*
+
 This git repository contains an example on how to synchronize documents between multiple Qlik Associative Engine instances in Qlik Core. It also contains a small test scenario, implemented with [enigma.js](https://github.com/qlik-oss/enigma.js/), to verify document synchronization between engine instances. Container orchestration in this example is managed with [Kubernetes]( https://kubernetes.io/).
 
 ## Description
